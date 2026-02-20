@@ -574,10 +574,6 @@
                             <i class="fas fa-calendar-check"></i> Reservar
                         </button>
                     </div>
-                    <div id="bookingWallet" style="margin-top: 16px; padding: 12px; background: var(--bg); border-radius: 8px; font-size: 0.85rem; display: none;">
-                        <i class="fas fa-wallet" style="color: var(--primary);"></i>
-                        <span id="bookingWalletAddress"></span>
-                    </div>
                 </div>
             </div>
         </div>
@@ -911,14 +907,6 @@
             document.getElementById('detailAmenities').innerHTML = p.amenities.map(a => 
                 `<span class="amenity"><i class="fas fa-check"></i> ${a}</span>`
             ).join('');
-
-            if (user) {
-                document.getElementById('bookingWallet').style.display = 'block';
-                document.getElementById('bookingWalletAddress').textContent = 
-                    user.wallet.slice(0, 10) + '...' + user.wallet.slice(-8);
-            } else {
-                document.getElementById('bookingWallet').style.display = 'none';
-            }
 
             // Reset price breakdown
             document.getElementById('checkin').value = '';
