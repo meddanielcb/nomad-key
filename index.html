@@ -17,8 +17,55 @@
             --text-light: #4a5568;
             --bg: #f7fafc;
             --white: #ffffff;
+            --success: #48bb78;
+            --error: #e53e3e;
+            --warning: #ed8936;
         }
         body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); }
+        
+        /* Toast Notifications */
+        .toast-container {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 9999;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        .toast {
+            background: white;
+            padding: 16px 20px;
+            border-radius: 12px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.15);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            min-width: 300px;
+            max-width: 400px;
+            animation: slideIn 0.3s ease;
+            border-left: 4px solid var(--primary);
+        }
+        .toast.success { border-left-color: var(--success); }
+        .toast.error { border-left-color: var(--error); }
+        .toast.warning { border-left-color: var(--warning); }
+        .toast i { font-size: 1.25rem; }
+        .toast.success i { color: var(--success); }
+        .toast.error i { color: var(--error); }
+        .toast.warning i { color: var(--warning); }
+        .toast-content { flex: 1; }
+        .toast-title { font-weight: 600; font-size: 0.95rem; margin-bottom: 2px; }
+        .toast-message { font-size: 0.85rem; color: var(--text-light); }
+        .toast-close { background: none; border: none; cursor: pointer; color: var(--text-light); padding: 4px; }
+        @keyframes slideIn {
+            from { transform: translateX(100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+        @keyframes slideOut {
+            from { transform: translateX(0); opacity: 1; }
+            to { transform: translateX(100%); opacity: 0; }
+        }
+        .toast.hiding { animation: slideOut 0.3s ease forwards; }
         
         /* Header */
         .header {
@@ -38,8 +85,60 @@
         .search-bar { display: flex; gap: 8px; flex: 1; max-width: 500px; margin: 0 24px; }
         .search-bar input { flex: 1; padding: 10px 16px; border: 2px solid #e2e8f0; border-radius: 8px; font-size: 0.95rem; }
         .search-bar button { background: var(--primary); color: white; border: none; padding: 10px 20px; border-radius: 8px; cursor: pointer; }
-        .user-menu { display: flex; align-items: center; gap: 12px; }
-        .wallet-badge { background: var(--bg); padding: 6px 12px; border-radius: 20px; font-size: 0.8rem; font-family: monospace; }
+        .user-menu { display: flex; align-items: center; gap: 12px; position: relative; }
+        
+        /* User Avatar */
+        .user-avatar {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 8px 16px;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+        .user-avatar:hover { transform: scale(1.02); }
+        .avatar-icon {
+            width: 32px;
+            height: 32px;
+            background: rgba(255,255,255,0.2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+        .avatar-text { font-size: 0.9rem; font-weight: 500; }
+        .avatar-dropdown {
+            position: absolute;
+            top: 100%;
+            right: 0;
+            margin-top: 8px;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.15);
+            padding: 8px;
+            min-width: 200px;
+            display: none;
+        }
+        .avatar-dropdown.active { display: block; }
+        .dropdown-item {
+            padding: 12px 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: var(--text);
+            transition: background 0.2s;
+        }
+        .dropdown-item:hover { background: var(--bg); }
+        .dropdown-item i { color: var(--text-light); }
+        .dropdown-divider { height: 1px; background: #e2e8f0; margin: 8px 0; }
+        
         .btn { padding: 10px 20px; border-radius: 8px; border: none; cursor: pointer; font-weight: 600; }
         .btn-primary { background: linear-gradient(135deg, var(--primary), var(--secondary)); color: white; }
         .btn-secondary { background: #e2e8f0; color: var(--text); }
@@ -104,6 +203,50 @@
         .booking-form { display: flex; flex-direction: column; gap: 12px; }
         .booking-form input, .booking-form select { padding: 12px; border: 2px solid #e2e8f0; border-radius: 8px; }
         .booking-form .btn { margin-top: 8px; }
+        
+        /* Price Breakdown */
+        .price-breakdown {
+            background: var(--bg);
+            border-radius: 12px;
+            padding: 20px;
+            margin: 16px 0;
+        }
+        .price-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 12px 0;
+            border-bottom: 1px solid #e2e8f0;
+            font-size: 0.95rem;
+        }
+        .price-row:last-child { border-bottom: none; }
+        .price-row.total {
+            font-weight: 700;
+            font-size: 1.1rem;
+            color: var(--text);
+            padding-top: 16px;
+            margin-top: 8px;
+            border-top: 2px solid #cbd5e0;
+        }
+        .price-row .label { color: var(--text-light); }
+        .price-row .value { font-weight: 600; }
+        .price-row.total .value {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .usdc-conversion {
+            margin-top: 12px;
+            padding: 12px;
+            background: linear-gradient(135deg, rgba(102,126,234,0.1), rgba(118,75,162,0.1));
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 0.9rem;
+        }
+        .usdc-conversion i { color: var(--primary); }
+        .usdc-conversion .amount { font-weight: 600; color: var(--primary); }
         
         /* ===== RESPONSIVE DESIGN COMPLETO ===== */
         
@@ -254,6 +397,9 @@
     </style>
 </head>
 <body>
+    <!-- Toast Container -->
+    <div class="toast-container" id="toastContainer"></div>
+
     <!-- Header -->
     <header class="header">
         <div class="logo" onclick="showHome()">
@@ -266,8 +412,22 @@
         </div>
         <div class="user-menu">
             <div id="userSection" style="display:none">
-                <span class="wallet-badge" id="walletDisplay"></span>
-                <button class="btn btn-secondary" onclick="logout()">Sair</button>
+                <div class="user-avatar" onclick="toggleUserMenu()">
+                    <div class="avatar-icon" id="avatarInitials">U</div>
+                    <span class="avatar-text">Minha Conta</span>
+                </div>
+                <div class="avatar-dropdown" id="userDropdown">
+                    <div class="dropdown-item" onclick="showMyReservations()">
+                        <i class="fas fa-calendar"></i> Minhas Reservas
+                    </div>
+                    <div class="dropdown-item" onclick="showWalletInfo()">
+                        <i class="fas fa-wallet"></i> Minha Wallet
+                    </div>
+                    <div class="dropdown-divider"></div>
+                    <div class="dropdown-item" onclick="logout()">
+                        <i class="fas fa-sign-out-alt"></i> Sair
+                    </div>
+                </div>
             </div>
             <button id="loginBtn" class="btn btn-primary" onclick="showLogin()">Entrar</button>
         </div>
@@ -371,18 +531,46 @@
                 <div class="booking-card">
                     <div class="booking-price" id="detailPrice"></div>
                     <div class="booking-form">
-                        <label>Check-in</label>
-                        <input type="date" id="checkin">
-                        <label>Check-out</label>
-                        <input type="date" id="checkout">
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+                            <div>
+                                <label>Check-in</label>
+                                <input type="date" id="checkin" onchange="calculatePrice()">
+                            </div>
+                            <div>
+                                <label>Check-out</label>
+                                <input type="date" id="checkout" onchange="calculatePrice()">
+                            </div>
+                        </div>
                         <label>Hóspedes</label>
                         <select id="bookingGuests">
-                            <option>1 hóspede</option>
-                            <option>2 hóspedes</option>
-                            <option>3 hóspedes</option>
-                            <option>4+ hóspedes</option>
+                            <option value="1">1 hóspede</option>
+                            <option value="2">2 hóspedes</option>
+                            <option value="3">3 hóspedes</option>
+                            <option value="4">4+ hóspedes</option>
                         </select>
-                        <button class="btn btn-primary" onclick="bookProperty()">
+                        
+                        <!-- Price Breakdown -->
+                        <div class="price-breakdown" id="priceBreakdown" style="display: none;">
+                            <div class="price-row">
+                                <span class="label" id="nightsLabel">0 noites x R$ 0</span>
+                                <span class="value" id="subtotalValue">R$ 0</span>
+                            </div>
+                            <div class="price-row">
+                                <span class="label">Taxa NomadKey (2%)</span>
+                                <span class="value" id="feeValue">R$ 0</span>
+                            </div>
+                            <div class="price-row total">
+                                <span class="label">Total</span>
+                                <span class="value" id="totalValue">R$ 0</span>
+                            </div>
+                            <div class="usdc-conversion">
+                                <i class="fas fa-coins"></i>
+                                <span>≈ <span class="amount" id="usdcValue">0 USDC</span></span>
+                                <span style="color: var(--text-light); font-size: 0.8rem;">(cotação: R$ 5,00)</span>
+                            </div>
+                        </div>
+                        
+                        <button class="btn btn-primary" id="bookButton" onclick="bookProperty()">
                             <i class="fas fa-calendar-check"></i> Reservar
                         </button>
                     </div>
@@ -396,6 +584,44 @@
     </div>
 
     <script>
+        // Toast Notification System
+        function showToast(title, message, type = 'info', duration = 4000) {
+            const container = document.getElementById('toastContainer');
+            const toast = document.createElement('div');
+            toast.className = `toast ${type}`;
+            
+            const icons = {
+                success: 'fa-check-circle',
+                error: 'fa-exclamation-circle',
+                warning: 'fa-exclamation-triangle',
+                info: 'fa-info-circle'
+            };
+            
+            toast.innerHTML = `
+                <i class="fas ${icons[type]}"></i>
+                <div class="toast-content">
+                    <div class="toast-title">${title}</div>
+                    <div class="toast-message">${message}</div>
+                </div>
+                <button class="toast-close" onclick="this.parentElement.remove()">
+                    <i class="fas fa-times"></i>
+                </button>
+            `;
+            
+            container.appendChild(toast);
+            
+            setTimeout(() => {
+                toast.classList.add('hiding');
+                setTimeout(() => toast.remove(), 300);
+            }, duration);
+        }
+
+        // Global variables
+        let user = null;
+        let map = null;
+        let markers = [];
+        let currentProperty = null;
+
         // Mock data
         const properties = [
             {
@@ -496,10 +722,6 @@
             }
         ];
 
-        let user = null;
-        let map = null;
-        let markers = [];
-
         // Initialize
         document.addEventListener('DOMContentLoaded', () => {
             loadUser();
@@ -518,8 +740,61 @@
         function showUser() {
             document.getElementById('userSection').style.display = 'flex';
             document.getElementById('loginBtn').style.display = 'none';
-            document.getElementById('walletDisplay').textContent = 
-                user.wallet.slice(0, 6) + '...' + user.wallet.slice(-4);
+            
+            // Set avatar initials from email
+            const initials = user.email.split('@')[0].slice(0, 2).toUpperCase();
+            document.getElementById('avatarInitials').textContent = initials;
+        }
+
+        function toggleUserMenu() {
+            const dropdown = document.getElementById('userDropdown');
+            dropdown.classList.toggle('active');
+        }
+
+        function showMyReservations() {
+            showToast('Em breve', 'Área de reservas em desenvolvimento', 'info');
+            toggleUserMenu();
+        }
+
+        function showWalletInfo() {
+            if (user) {
+                showToast('Sua Wallet', `Endereço completo: ${user.wallet}`, 'info', 6000);
+            }
+            toggleUserMenu();
+        }
+
+        function calculatePrice() {
+            if (!currentProperty) return;
+            
+            const checkin = document.getElementById('checkin').value;
+            const checkout = document.getElementById('checkout').value;
+            
+            if (!checkin || !checkout) {
+                document.getElementById('priceBreakdown').style.display = 'none';
+                return;
+            }
+            
+            const start = new Date(checkin);
+            const end = new Date(checkout);
+            const nights = Math.max(1, Math.round((end - start) / (1000 * 60 * 60 * 24)));
+            
+            if (nights <= 0) {
+                showToast('Datas inválidas', 'Check-out deve ser após o check-in', 'error');
+                return;
+            }
+            
+            const dailyRate = currentProperty.price;
+            const subtotal = nights * dailyRate;
+            const fee = Math.round(subtotal * 0.02);
+            const total = subtotal + fee;
+            const usdcAmount = (total / 5).toFixed(2);
+            
+            document.getElementById('nightsLabel').textContent = `${nights} noite${nights > 1 ? 's' : ''} x R$ ${dailyRate}`;
+            document.getElementById('subtotalValue').textContent = `R$ ${subtotal}`;
+            document.getElementById('feeValue').textContent = `R$ ${fee}`;
+            document.getElementById('totalValue').textContent = `R$ ${total}`;
+            document.getElementById('usdcValue').textContent = `${usdcAmount} USDC`;
+            document.getElementById('priceBreakdown').style.display = 'block';
         }
 
         function showLogin() {
@@ -622,6 +897,8 @@
             const p = properties.find(x => x.id === id);
             if (!p) return;
 
+            currentProperty = p;
+
             document.getElementById('detailImage').src = p.image;
             document.getElementById('detailTitle').textContent = p.title;
             document.getElementById('detailLocation').textContent = p.location;
@@ -643,6 +920,11 @@
                 document.getElementById('bookingWallet').style.display = 'none';
             }
 
+            // Reset price breakdown
+            document.getElementById('checkin').value = '';
+            document.getElementById('checkout').value = '';
+            document.getElementById('priceBreakdown').style.display = 'none';
+
             document.getElementById('detailModal').classList.add('active');
             document.body.style.overflow = 'hidden';
         }
@@ -654,11 +936,20 @@
 
         function bookProperty() {
             if (!user) {
-                alert('Por favor, faça login primeiro');
+                showToast('Login necessário', 'Por favor, faça login primeiro para reservar', 'warning');
                 showLogin();
                 return;
             }
-            alert('Reserva simulada! Em produção, isso criaria um smart contract de escrow.');
+            
+            const checkin = document.getElementById('checkin').value;
+            const checkout = document.getElementById('checkout').value;
+            
+            if (!checkin || !checkout) {
+                showToast('Datas necessárias', 'Por favor, selecione as datas de check-in e check-out', 'warning');
+                return;
+            }
+            
+            showToast('Reserva simulada!', 'Em produção, isso criaria um smart contract de escrow com o pagamento em USDC.', 'success', 5000);
         }
 
         function showHome() {
@@ -673,6 +964,15 @@
 
         document.getElementById('detailModal').addEventListener('click', (e) => {
             if (e.target === e.currentTarget) hideDetail();
+        });
+
+        // Close user dropdown when clicking outside
+        document.addEventListener('click', (e) => {
+            const userMenu = document.querySelector('.user-menu');
+            const dropdown = document.getElementById('userDropdown');
+            if (userMenu && !userMenu.contains(e.target)) {
+                dropdown.classList.remove('active');
+            }
         });
     </script>
 </body>
