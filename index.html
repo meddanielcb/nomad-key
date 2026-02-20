@@ -105,10 +105,151 @@
         .booking-form input, .booking-form select { padding: 12px; border: 2px solid #e2e8f0; border-radius: 8px; }
         .booking-form .btn { margin-top: 8px; }
         
+        /* ===== RESPONSIVE DESIGN COMPLETO ===== */
+        
+        /* Tablets (768px - 1024px) */
+        @media (max-width: 1024px) {
+            .main { grid-template-columns: 1fr 300px; }
+            .detail-body { grid-template-columns: 1fr 280px; gap: 24px; }
+            .properties-grid { grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); }
+        }
+        
+        /* Tablets pequenos e smartphones grandes (481px - 767px) */
         @media (max-width: 768px) {
-            .main { grid-template-columns: 1fr; }
-            .map-container { display: none; }
-            .detail-body { grid-template-columns: 1fr; }
+            .header {
+                flex-wrap: wrap;
+                padding: 12px 16px;
+                gap: 12px;
+            }
+            .logo span { font-size: 1.1rem; }
+            .search-bar {
+                order: 3;
+                max-width: 100%;
+                margin: 8px 0 0 0;
+                width: 100%;
+            }
+            .user-menu { order: 2; }
+            
+            .filters {
+                padding: 12px 16px;
+                gap: 12px;
+            }
+            .filter-item { min-width: 120px; }
+            
+            .main { grid-template-columns: 1fr; height: auto; }
+            .map-container { 
+                display: block; 
+                height: 300px;
+                position: sticky;
+                top: 140px;
+            }
+            
+            .properties { padding: 16px; }
+            .properties-grid { 
+                grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); 
+                gap: 16px;
+            }
+            
+            .detail-content { margin: 0; border-radius: 0; min-height: 100vh; }
+            .detail-header { height: 250px; }
+            .detail-body { 
+                grid-template-columns: 1fr; 
+                padding: 20px;
+                gap: 20px;
+            }
+            .detail-info h1 { font-size: 1.5rem; }
+            .detail-stats { 
+                flex-wrap: wrap; 
+                gap: 12px;
+                font-size: 0.9rem;
+            }
+            .booking-card { position: static; }
+            
+            .modal { 
+                margin: 20px; 
+                padding: 30px 20px;
+                max-width: calc(100% - 40px);
+            }
+        }
+        
+        /* Smartphones pequenos (até 480px) */
+        @media (max-width: 480px) {
+            .header { padding: 10px 12px; }
+            .logo i { font-size: 1.25rem; }
+            .logo span { font-size: 1rem; }
+            .btn { padding: 8px 14px; font-size: 0.875rem; }
+            
+            .filters {
+                padding: 10px 12px;
+                gap: 8px;
+            }
+            .filter-item { min-width: 100px; }
+            .filter-item label { font-size: 0.7rem; }
+            .filter-item select, .filter-item input { 
+                padding: 6px 8px; 
+                font-size: 0.85rem;
+            }
+            
+            .map-container { height: 200px; top: 120px; }
+            
+            .properties { padding: 12px; }
+            .properties-grid { 
+                grid-template-columns: 1fr; 
+                gap: 12px;
+            }
+            .property-image { height: 180px; }
+            .property-info { padding: 12px; }
+            .property-title { font-size: 0.95rem; }
+            
+            .detail-header { height: 200px; }
+            .close-btn { 
+                width: 36px; 
+                height: 36px;
+                top: 12px;
+                left: 12px;
+            }
+            .detail-body { padding: 16px; }
+            .detail-info h1 { font-size: 1.25rem; }
+            .detail-stats { 
+                padding: 16px 0;
+                font-size: 0.85rem;
+            }
+            .stat { gap: 4px; }
+            .amenities { gap: 6px; }
+            .amenity { 
+                padding: 6px 12px; 
+                font-size: 0.8rem;
+            }
+            .booking-price { font-size: 1.25rem; }
+            
+            .modal { padding: 24px 16px; }
+            .modal h2 { font-size: 1.25rem; }
+        }
+        
+        /* Telas grandes (acima de 1440px) */
+        @media (min-width: 1440px) {
+            .main { grid-template-columns: 1fr 500px; }
+            .properties-grid { 
+                grid-template-columns: repeat(auto-fill, minmax(350px, 1fr)); 
+                gap: 24px;
+            }
+            .detail-content { max-width: 1200px; }
+            .detail-body { grid-template-columns: 1fr 400px; }
+        }
+        
+        /* Landscape em smartphones */
+        @media (max-height: 500px) and (orientation: landscape) {
+            .map-container { height: 150px; }
+            .detail-header { height: 150px; }
+        }
+        
+        /* iPhone notch e safe area */
+        @supports (padding-top: env(safe-area-inset-top)) {
+            .header {
+                padding-top: calc(16px + env(safe-area-inset-top));
+                padding-left: calc(24px + env(safe-area-inset-left));
+                padding-right: calc(24px + env(safe-area-inset-right));
+            }
         }
     </style>
 </head>
