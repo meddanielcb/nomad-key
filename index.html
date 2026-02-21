@@ -66,6 +66,8 @@
             to { transform: translateX(100%); opacity: 0; }
         }
         .toast.hiding { animation: slideOut 0.3s ease forwards; }
+        .toast.clickable-toast { cursor: pointer; }
+        .toast.clickable-toast:hover { background: #fffbeb; }
         
         /* Header */
         .header {
@@ -1057,6 +1059,37 @@
             
             hideLogin();
             showUser();
+            
+            // Verificar se há imóvel pendente após login
+            checkPendingProperty();
+        }
+
+        function checkPendingProperty() {
+            const pending = localStorage.getItem('nomadkey_pending_property');
+            if (pending) {
+                const data = JSON.parse(pending);
+                const property = properties.find(p => p.id === data.propertyId);
+                
+                if (property) {
+                    // Restaurar seleção
+                    currentProperty = property;
+                    
+                    // Mostrar detalhes do imóvel
+                    setTimeout(() => {
+                        showDetail(property.id);
+                        
+                        // Restaurar datas se existirem
+                        if (data.checkin) document.getElementById('checkin').value = data.checkin;
+                        if (data.checkout) document.getElementById('checkout').value = data.checkout;
+                        if (data.checkin && data.checkout) calculatePrice();
+                        
+                        showToast('Bem-vindo de volta!', 'Continue sua reserva de onde parou.', 'success');
+                    }, 500);
+                }
+                
+                // Limpar pending
+                localStorage.removeItem('nomadkey_pending_property');
+            }
         }
 
         function logout() {
@@ -1167,36 +1200,45 @@
 
         function bookProperty() {
             if (!user) {
+                // Salvar o imóvel atual para recuperar após login
+                if (currentProperty) {
+                    localStorage.setItem('nomadkey_pending_property', JSON.stringify({
+                        propertyId: currentProperty.id,
+                        checkin: document.getElementById('checkin').value,
+                        checkout: document.getElementById('checkout').value
+                    }));
+                }
+                
                 // Toast clicável para login
                 const container = document.getElementById('toastContainer');
                 const toast = document.createElement('div');
-                toast.className = 'toast warning';
-                toast.style.cursor = 'pointer';
+                toast.className = 'toast warning clickable-toast';
                 toast.innerHTML = `
                     <i class="fas fa-exclamation-triangle"></i>
                     <div class="toast-content">
                         <div class="toast-title">Login necessário</div>
                         <div class="toast-message">Clique aqui para fazer login e continuar sua reserva</div>
                     </div>
-                    <button class="toast-close" onclick="this.parentElement.remove()">
+                    <button class="toast-close" onclick="event.stopPropagation(); this.parentElement.remove();">
                         <i class="fas fa-times"></i>
                     </button>
                 `;
                 
                 // Ao clicar no toast, abre login
-                toast.addEventListener('click', function(e) {
-                    if (!e.target.closest('.toast-close')) {
-                        toast.remove();
-                        showLogin();
-                    }
-                });
+                toast.onclick = function(e) {
+                    if (e.target.closest('.toast-close')) return;
+                    this.remove();
+                    showLogin();
+                };
                 
                 container.appendChild(toast);
                 
                 setTimeout(() => {
-                    toast.classList.add('hiding');
-                    setTimeout(() => toast.remove(), 300);
-                }, 6000);
+                    if (toast.parentElement) {
+                        toast.classList.add('hiding');
+                        setTimeout(() => toast.remove(), 300);
+                    }
+                }, 8000);
                 
                 return;
             }
