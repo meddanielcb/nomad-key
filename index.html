@@ -579,6 +579,105 @@
         </div>
     </div>
 
+    <!-- Checkout Modal - NOVO -->
+    <div class="detail-modal" id="checkoutModal">
+        <div class="detail-content" style="max-width: 500px;">
+            <div class="detail-header" style="height: 150px; background: linear-gradient(135deg, var(--primary), var(--secondary)); display: flex; align-items: center; justify-content: center;">
+                <h2 style="color: white; font-size: 1.5rem;"><i class="fas fa-lock"></i> Checkout Seguro</h2>
+                <button class="close-btn" onclick="hideCheckout()" style="top: 16px; left: 16px;"><i class="fas fa-arrow-left"></i></button>
+            </div>
+            <div class="detail-body" style="grid-template-columns: 1fr; padding: 24px;">
+                <!-- Resumo da Reserva -->
+                <div style="background: var(--bg); padding: 20px; border-radius: 12px; margin-bottom: 20px;">
+                    <h3 style="margin-bottom: 16px; font-size: 1.1rem;"><i class="fas fa-home"></i> Resumo da Reserva</h3>
+                    <div style="display: flex; gap: 16px; margin-bottom: 16px;">
+                        <img id="checkoutImage" src="" style="width: 80px; height: 80px; object-fit: cover; border-radius: 8px;">
+                        <div>
+                            <h4 id="checkoutTitle" style="font-size: 1rem; margin-bottom: 4px;"></h4>
+                            <p id="checkoutLocation" style="font-size: 0.85rem; color: var(--text-light);"></p>
+                        </div>
+                    </div>
+                    <div style="border-top: 1px solid #e2e8f0; padding-top: 16px;">
+                        <div style="display: flex; justify-content: space-between; margin-bottom: 8px; font-size: 0.9rem;">
+                            <span id="checkoutDates"></span>
+                            <span id="checkoutGuests"></span>
+                        </div>
+                        <div style="display: flex; justify-content: space-between; font-weight: 700; font-size: 1.1rem; color: var(--primary);">
+                            <span>Total</span>
+                            <span id="checkoutTotal"></span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Método de Pagamento -->
+                <div style="margin-bottom: 20px;">
+                    <h3 style="margin-bottom: 16px; font-size: 1.1rem;"><i class="fas fa-credit-card"></i> Método de Pagamento</h3>
+                    
+                    <!-- Opção PIX -->
+                    <div style="border: 2px solid var(--primary); border-radius: 12px; padding: 16px; margin-bottom: 12px; background: linear-gradient(135deg, rgba(102,126,234,0.05), rgba(118,75,162,0.05));">
+                        <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 12px;">
+                            <div style="width: 40px; height: 40px; background: #00BFA5; border-radius: 8px; display: flex; align-items: center; justify-content: center; color: white; font-weight: 700;">PIX</div>
+                            <div>
+                                <div style="font-weight: 600;">Pagar com PIX</div>
+                                <div style="font-size: 0.85rem; color: var(--text-light);">Conversão automática para USDC</div>
+                            </div>
+                        </div>
+                        
+                        <!-- QR Code Container -->
+                        <div id="qrCodeContainer" style="text-align: center; padding: 20px; background: white; border-radius: 8px; display: none;">
+                            <div style="width: 200px; height: 200px; margin: 0 auto 16px; background: white; padding: 10px; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
+                                <!-- QR Code Simulado -->
+                                <div style="width: 100%; height: 100%; background: linear-gradient(45deg, #000 25%, transparent 25%), linear-gradient(-45deg, #000 25%, transparent 25%), linear-gradient(45deg, transparent 75%, #000 75%), linear-gradient(-45deg, transparent 75%, #000 75%); background-size: 20px 20px; background-position: 0 0, 0 10px, 10px -10px, -10px 0px; border-radius: 4px; display: flex; align-items: center; justify-content: center;">
+                                    <i class="fas fa-qrcode" style="font-size: 3rem; color: white; background: var(--primary); padding: 10px; border-radius: 8px;"></i>
+                                </div>
+                            </div>
+                            <p style="font-size: 0.9rem; color: var(--text-light); margin-bottom: 8px;">Escaneie o QR Code com seu app bancário</p>
+                            <div style="background: var(--bg); padding: 12px; border-radius: 8px; font-family: monospace; font-size: 0.85rem; word-break: break-all;" id="pixCode">
+                                00020126580014BR.GOV.BCB.PIX0136nomadkey@example.com52040000530398654061000.005802BR5913Nomad Key6009SAO PAULO62070503***6304E2CA
+                            </div>
+                            <button class="btn btn-secondary" style="margin-top: 12px; width: 100%;" onclick="copyPixCode()">
+                                <i class="fas fa-copy"></i> Copiar código PIX
+                            </button>
+                        </div>
+
+                        <!-- Botão Gerar PIX -->
+                        <button class="btn btn-primary" style="width: 100%;" id="generatePixBtn" onclick="generatePix()">
+                            <i class="fas fa-qrcode"></i> Gerar QR Code PIX
+                        </button>
+
+                        <!-- Status do Pagamento -->
+                        <div id="paymentStatus" style="display: none; margin-top: 16px; padding: 16px; background: linear-gradient(135deg, rgba(72,187,120,0.1), rgba(72,187,120,0.05)); border-radius: 8px; border: 1px solid var(--success);">
+                            <div style="display: flex; align-items: center; gap: 12px; color: var(--success);">
+                                <i class="fas fa-check-circle" style="font-size: 1.5rem;"></i>
+                                <div>
+                                    <div style="font-weight: 600;">Pagamento confirmado!</div>
+                                    <div style="font-size: 0.85rem;">Seu pagamento foi convertido em USDC e está em escrow.</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Info Educativa -->
+                    <div style="background: linear-gradient(135deg, rgba(102,126,234,0.1), rgba(118,75,162,0.1)); padding: 16px; border-radius: 12px; margin-top: 16px;">
+                        <div style="display: flex; align-items: flex-start; gap: 12px;">
+                            <i class="fas fa-info-circle" style="color: var(--primary); font-size: 1.25rem; margin-top: 2px;"></i>
+                            <div>
+                                <div style="font-weight: 600; margin-bottom: 4px;">Como funciona?</div>
+                                <div style="font-size: 0.9rem; color: var(--text-light); line-height: 1.5;">
+                                    1. Você paga em Reais via PIX<br>
+                                    2. O valor é convertido automaticamente para USDC<br>
+                                    3. O USDC fica em um smart contract de escrow<br>
+                                    4. Após o check-in, o pagamento é liberado ao anfitrião<br>
+                                    <span style="color: var(--primary); font-weight: 500;">Sua transação está protegida pela blockchain! 🔒</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script>
         // Toast Notification System
         function showToast(title, message, type = 'info', duration = 4000) {
@@ -937,7 +1036,98 @@
                 return;
             }
             
-            showToast('Reserva simulada!', 'Em produção, isso criaria um smart contract de escrow com o pagamento em USDC.', 'success', 5000);
+            // Abrir checkout ao invés de apenas mostrar toast
+            showCheckout();
+        }
+
+        // Checkout Functions - NOVO
+        let checkoutData = {
+            property: null,
+            checkin: '',
+            checkout: '',
+            guests: 1,
+            nights: 0,
+            total: 0
+        };
+
+        function showCheckout() {
+            if (!currentProperty) return;
+            
+            // Pegar dados do formulário
+            const checkin = document.getElementById('checkin').value;
+            const checkout = document.getElementById('checkout').value;
+            const guests = document.getElementById('bookingGuests').value;
+            
+            // Calcular noites
+            const start = new Date(checkin);
+            const end = new Date(checkout);
+            const nights = Math.max(1, Math.round((end - start) / (1000 * 60 * 60 * 24)));
+            
+            // Calcular total
+            const subtotal = nights * currentProperty.price;
+            const fee = Math.round(subtotal * 0.02);
+            const total = subtotal + fee;
+            
+            // Salvar dados
+            checkoutData = {
+                property: currentProperty,
+                checkin: checkin,
+                checkout: checkout,
+                guests: guests,
+                nights: nights,
+                total: total
+            };
+            
+            // Preencher modal
+            document.getElementById('checkoutImage').src = currentProperty.image;
+            document.getElementById('checkoutTitle').textContent = currentProperty.title;
+            document.getElementById('checkoutLocation').textContent = currentProperty.location;
+            document.getElementById('checkoutDates').textContent = `${nights} noite${nights > 1 ? 's' : ''}`;
+            document.getElementById('checkoutGuests').textContent = `${guests} hóspede${guests > 1 ? 's' : ''}`;
+            document.getElementById('checkoutTotal').textContent = `R$ ${total}`;
+            
+            // Reset estado do PIX
+            document.getElementById('qrCodeContainer').style.display = 'none';
+            document.getElementById('generatePixBtn').style.display = 'block';
+            document.getElementById('paymentStatus').style.display = 'none';
+            
+            // Esconder detalhes e mostrar checkout
+            document.getElementById('detailModal').classList.remove('active');
+            document.getElementById('checkoutModal').classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function hideCheckout() {
+            document.getElementById('checkoutModal').classList.remove('active');
+            document.body.style.overflow = '';
+        }
+
+        function generatePix() {
+            const btn = document.getElementById('generatePixBtn');
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Gerando QR Code...';
+            btn.disabled = true;
+            
+            // Simular processamento
+            setTimeout(() => {
+                document.getElementById('qrCodeContainer').style.display = 'block';
+                btn.style.display = 'none';
+                showToast('QR Code gerado!', 'Escaneie com seu app bancário para pagar', 'success');
+                
+                // Simular confirmação de pagamento após 3 segundos
+                setTimeout(() => {
+                    document.getElementById('paymentStatus').style.display = 'block';
+                    showToast('Pagamento confirmado!', 'Seu pagamento foi processado e convertido para USDC em escrow.', 'success', 6000);
+                }, 3000);
+            }, 1500);
+        }
+
+        function copyPixCode() {
+            const code = document.getElementById('pixCode').textContent.trim();
+            navigator.clipboard.writeText(code).then(() => {
+                showToast('Copiado!', 'Código PIX copiado para a área de transferência', 'success');
+            }).catch(() => {
+                showToast('Erro', 'Não foi possível copiar. Tente manualmente.', 'error');
+            });
         }
 
         function showHome() {
@@ -952,6 +1142,10 @@
 
         document.getElementById('detailModal').addEventListener('click', (e) => {
             if (e.target === e.currentTarget) hideDetail();
+        });
+
+        document.getElementById('checkoutModal').addEventListener('click', (e) => {
+            if (e.target === e.currentTarget) hideCheckout();
         });
 
         // Close user dropdown when clicking outside
