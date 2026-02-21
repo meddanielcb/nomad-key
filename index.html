@@ -17,57 +17,8 @@
             --text-light: #4a5568;
             --bg: #f7fafc;
             --white: #ffffff;
-            --success: #48bb78;
-            --error: #e53e3e;
-            --warning: #ed8936;
         }
         body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); }
-        
-        /* Toast Notifications */
-        .toast-container {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            z-index: 9999;
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-        }
-        .toast {
-            background: white;
-            padding: 16px 20px;
-            border-radius: 12px;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.15);
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            min-width: 300px;
-            max-width: 400px;
-            animation: slideIn 0.3s ease;
-            border-left: 4px solid var(--primary);
-        }
-        .toast.success { border-left-color: var(--success); }
-        .toast.error { border-left-color: var(--error); }
-        .toast.warning { border-left-color: var(--warning); }
-        .toast i { font-size: 1.25rem; }
-        .toast.success i { color: var(--success); }
-        .toast.error i { color: var(--error); }
-        .toast.warning i { color: var(--warning); }
-        .toast-content { flex: 1; }
-        .toast-title { font-weight: 600; font-size: 0.95rem; margin-bottom: 2px; }
-        .toast-message { font-size: 0.85rem; color: var(--text-light); }
-        .toast-close { background: none; border: none; cursor: pointer; color: var(--text-light); padding: 4px; }
-        @keyframes slideIn {
-            from { transform: translateX(100%); opacity: 0; }
-            to { transform: translateX(0); opacity: 1; }
-        }
-        @keyframes slideOut {
-            from { transform: translateX(0); opacity: 1; }
-            to { transform: translateX(100%); opacity: 0; }
-        }
-        .toast.hiding { animation: slideOut 0.3s ease forwards; }
-        .toast.clickable-toast { cursor: pointer; }
-        .toast.clickable-toast:hover { background: #fffbeb; }
         
         /* Header */
         .header {
@@ -79,7 +30,7 @@
             box-shadow: 0 2px 4px rgba(0,0,0,0.1);
             position: sticky;
             top: 0;
-            z-index: 999;
+            z-index: 100;
         }
         .logo { display: flex; align-items: center; gap: 8px; cursor: pointer; }
         .logo i { font-size: 1.5rem; color: var(--primary); }
@@ -87,63 +38,8 @@
         .search-bar { display: flex; gap: 8px; flex: 1; max-width: 500px; margin: 0 24px; }
         .search-bar input { flex: 1; padding: 10px 16px; border: 2px solid #e2e8f0; border-radius: 8px; font-size: 0.95rem; }
         .search-bar button { background: var(--primary); color: white; border: none; padding: 10px 20px; border-radius: 8px; cursor: pointer; }
-        .user-menu { display: flex; align-items: center; gap: 12px; position: relative; }
-        
-        /* User Avatar */
-        .user-avatar {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            color: white;
-            padding: 8px 16px;
-            border-radius: 25px;
-            cursor: pointer;
-            transition: transform 0.2s;
-            position: relative;
-            z-index: 1000;
-        }
-        .user-avatar:hover { transform: scale(1.02); }
-        .avatar-icon {
-            width: 32px;
-            height: 32px;
-            background: rgba(255,255,255,0.2);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 600;
-            font-size: 0.9rem;
-        }
-        .avatar-text { font-size: 0.9rem; font-weight: 500; }
-        .avatar-dropdown {
-            position: absolute;
-            top: 100%;
-            right: 0;
-            margin-top: 8px;
-            background: white;
-            border-radius: 12px;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.15);
-            padding: 8px;
-            min-width: 200px;
-            display: none;
-            z-index: 1001;
-        }
-        .avatar-dropdown.active { display: block; }
-        .dropdown-item {
-            padding: 12px 16px;
-            border-radius: 8px;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            color: var(--text);
-            transition: background 0.2s;
-        }
-        .dropdown-item:hover { background: var(--bg); }
-        .dropdown-item i { color: var(--text-light); }
-        .dropdown-divider { height: 1px; background: #e2e8f0; margin: 8px 0; }
-        
+        .user-menu { display: flex; align-items: center; gap: 12px; }
+        .wallet-badge { background: var(--bg); padding: 6px 12px; border-radius: 20px; font-size: 0.8rem; font-family: monospace; }
         .btn { padding: 10px 20px; border-radius: 8px; border: none; cursor: pointer; font-weight: 600; }
         .btn-primary { background: linear-gradient(135deg, var(--primary), var(--secondary)); color: white; }
         .btn-secondary { background: #e2e8f0; color: var(--text); }
@@ -186,13 +82,13 @@
         .price span { font-size: 0.875rem; color: var(--text-light); font-weight: normal; }
         
         /* Map */
-        .map-container { height: 100%; position: relative; z-index: 1; }
+        .map-container { height: 100%; }
         #map { height: 100%; width: 100%; }
         
         /* Property Detail Modal */
-        .detail-modal { position: fixed; inset: 0; background: rgba(0,0,0,0.5); display: none; z-index: 2000; overflow-y: auto; }
+        .detail-modal { position: fixed; inset: 0; background: rgba(0,0,0,0.5); display: none; z-index: 200; overflow-y: auto; }
         .detail-modal.active { display: block; }
-        .detail-content { background: white; max-width: 900px; margin: 40px auto; border-radius: 16px; overflow: hidden; position: relative; z-index: 2001; }
+        .detail-content { background: white; max-width: 900px; margin: 40px auto; border-radius: 16px; overflow: hidden; }
         .detail-header { position: relative; height: 400px; }
         .detail-header img { width: 100%; height: 100%; object-fit: cover; }
         .close-btn { position: absolute; top: 16px; left: 16px; background: white; border: none; width: 40px; height: 40px; border-radius: 50%; cursor: pointer; font-size: 1.2rem; }
@@ -208,50 +104,6 @@
         .booking-form { display: flex; flex-direction: column; gap: 12px; }
         .booking-form input, .booking-form select { padding: 12px; border: 2px solid #e2e8f0; border-radius: 8px; }
         .booking-form .btn { margin-top: 8px; }
-        
-        /* Price Breakdown */
-        .price-breakdown {
-            background: var(--bg);
-            border-radius: 12px;
-            padding: 20px;
-            margin: 16px 0;
-        }
-        .price-row {
-            display: flex;
-            justify-content: space-between;
-            padding: 12px 0;
-            border-bottom: 1px solid #e2e8f0;
-            font-size: 0.95rem;
-        }
-        .price-row:last-child { border-bottom: none; }
-        .price-row.total {
-            font-weight: 700;
-            font-size: 1.1rem;
-            color: var(--text);
-            padding-top: 16px;
-            margin-top: 8px;
-            border-top: 2px solid #cbd5e0;
-        }
-        .price-row .label { color: var(--text-light); }
-        .price-row .value { font-weight: 600; }
-        .price-row.total .value {
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-        .usdc-conversion {
-            margin-top: 12px;
-            padding: 12px;
-            background: linear-gradient(135deg, rgba(102,126,234,0.1), rgba(118,75,162,0.1));
-            border-radius: 8px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            font-size: 0.9rem;
-        }
-        .usdc-conversion i { color: var(--primary); }
-        .usdc-conversion .amount { font-weight: 600; color: var(--primary); }
         
         /* ===== RESPONSIVE DESIGN COMPLETO ===== */
         
@@ -402,9 +254,6 @@
     </style>
 </head>
 <body>
-    <!-- Toast Container -->
-    <div class="toast-container" id="toastContainer"></div>
-
     <!-- Header -->
     <header class="header">
         <div class="logo" onclick="showHome()">
@@ -417,22 +266,8 @@
         </div>
         <div class="user-menu">
             <div id="userSection" style="display:none">
-                <div class="user-avatar" onclick="toggleUserMenu()">
-                    <div class="avatar-icon" id="avatarInitials">U</div>
-                    <span class="avatar-text">Minha Conta</span>
-                </div>
-                <div class="avatar-dropdown" id="userDropdown">
-                    <div class="dropdown-item" onclick="showMyReservations()">
-                        <i class="fas fa-calendar"></i> Minhas Reservas
-                    </div>
-                    <div class="dropdown-item" onclick="showWalletInfo()">
-                        <i class="fas fa-wallet"></i> Minha Wallet
-                    </div>
-                    <div class="dropdown-divider"></div>
-                    <div class="dropdown-item" onclick="logout()">
-                        <i class="fas fa-sign-out-alt"></i> Sair
-                    </div>
-                </div>
+                <span class="wallet-badge" id="walletDisplay"></span>
+                <button class="btn btn-secondary" onclick="logout()">Sair</button>
             </div>
             <button id="loginBtn" class="btn btn-primary" onclick="showLogin()">Entrar</button>
         </div>
@@ -536,162 +371,24 @@
                 <div class="booking-card">
                     <div class="booking-price" id="detailPrice"></div>
                     <div class="booking-form">
-                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
-                            <div>
-                                <label>Check-in</label>
-                                <input type="date" id="checkin" onchange="calculatePrice()">
-                            </div>
-                            <div>
-                                <label>Check-out</label>
-                                <input type="date" id="checkout" onchange="calculatePrice()">
-                            </div>
-                        </div>
+                        <label>Check-in</label>
+                        <input type="date" id="checkin">
+                        <label>Check-out</label>
+                        <input type="date" id="checkout">
                         <label>Hóspedes</label>
                         <select id="bookingGuests">
-                            <option value="1">1 hóspede</option>
-                            <option value="2">2 hóspedes</option>
-                            <option value="3">3 hóspedes</option>
-                            <option value="4">4+ hóspedes</option>
+                            <option>1 hóspede</option>
+                            <option>2 hóspedes</option>
+                            <option>3 hóspedes</option>
+                            <option>4+ hóspedes</option>
                         </select>
-                        
-                        <!-- Price Breakdown -->
-                        <div class="price-breakdown" id="priceBreakdown" style="display: none;">
-                            <div class="price-row">
-                                <span class="label" id="nightsLabel">0 noites x R$ 0</span>
-                                <span class="value" id="subtotalValue">R$ 0</span>
-                            </div>
-                            <div class="price-row">
-                                <span class="label">Taxa NomadKey (2%)</span>
-                                <span class="value" id="feeValue">R$ 0</span>
-                            </div>
-                            <div class="price-row total">
-                                <span class="label">Total</span>
-                                <span class="value" id="totalValue">R$ 0</span>
-                            </div>
-                            <div class="usdc-conversion">
-                                <i class="fas fa-coins"></i>
-                                <span>≈ <span class="amount" id="usdcValue">0 USDC</span></span>
-                                <span style="color: var(--text-light); font-size: 0.8rem;">(cotação: R$ 5,00)</span>
-                            </div>
-                        </div>
-                        
-                        <button class="btn btn-primary" id="bookButton" onclick="bookProperty()">
+                        <button class="btn btn-primary" onclick="bookProperty()">
                             <i class="fas fa-calendar-check"></i> Reservar
                         </button>
                     </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- My Reservations Page - NOVO -->
-    <div class="detail-modal" id="reservationsModal">
-        <div class="detail-content" style="max-width: 800px;">
-            <div class="detail-header" style="height: 120px; background: linear-gradient(135deg, var(--primary), var(--secondary)); display: flex; align-items: center; justify-content: center;">
-                <h2 style="color: white; font-size: 1.5rem;"><i class="fas fa-calendar-check"></i> Minhas Reservas</h2>
-                <button class="close-btn" onclick="hideReservations()"><i class="fas fa-arrow-left"></i></button>
-            </div>
-            <div class="detail-body" style="grid-template-columns: 1fr; padding: 24px;">
-                <div id="reservationsList">
-                    <!-- Reservas serão inseridas aqui -->
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Checkout Modal - NOVO -->
-    <div class="detail-modal" id="checkoutModal">
-        <div class="detail-content" style="max-width: 500px;">
-            <div class="detail-header" style="height: 150px; background: linear-gradient(135deg, var(--primary), var(--secondary)); display: flex; align-items: center; justify-content: center;">
-                <h2 style="color: white; font-size: 1.5rem;"><i class="fas fa-lock"></i> Checkout Seguro</h2>
-                <button class="close-btn" onclick="hideCheckout()" style="top: 16px; left: 16px;"><i class="fas fa-arrow-left"></i></button>
-            </div>
-            <div class="detail-body" style="grid-template-columns: 1fr; padding: 24px;">
-                <!-- Resumo da Reserva -->
-                <div style="background: var(--bg); padding: 20px; border-radius: 12px; margin-bottom: 20px;">
-                    <h3 style="margin-bottom: 16px; font-size: 1.1rem;"><i class="fas fa-home"></i> Resumo da Reserva</h3>
-                    <div style="display: flex; gap: 16px; margin-bottom: 16px;">
-                        <img id="checkoutImage" src="" style="width: 80px; height: 80px; object-fit: cover; border-radius: 8px;">
-                        <div>
-                            <h4 id="checkoutTitle" style="font-size: 1rem; margin-bottom: 4px;"></h4>
-                            <p id="checkoutLocation" style="font-size: 0.85rem; color: var(--text-light);"></p>
-                        </div>
-                    </div>
-                    <div style="border-top: 1px solid #e2e8f0; padding-top: 16px;">
-                        <div style="display: flex; justify-content: space-between; margin-bottom: 8px; font-size: 0.9rem;">
-                            <span id="checkoutDates"></span>
-                            <span id="checkoutGuests"></span>
-                        </div>
-                        <div style="display: flex; justify-content: space-between; font-weight: 700; font-size: 1.1rem; color: var(--primary);">
-                            <span>Total</span>
-                            <span id="checkoutTotal"></span>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Método de Pagamento -->
-                <div style="margin-bottom: 20px;">
-                    <h3 style="margin-bottom: 16px; font-size: 1.1rem;"><i class="fas fa-credit-card"></i> Método de Pagamento</h3>
-                    
-                    <!-- Opção PIX -->
-                    <div style="border: 2px solid var(--primary); border-radius: 12px; padding: 16px; margin-bottom: 12px; background: linear-gradient(135deg, rgba(102,126,234,0.05), rgba(118,75,162,0.05));">
-                        <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 12px;">
-                            <div style="width: 40px; height: 40px; background: #00BFA5; border-radius: 8px; display: flex; align-items: center; justify-content: center; color: white; font-weight: 700;">PIX</div>
-                            <div>
-                                <div style="font-weight: 600;">Pagar com PIX</div>
-                                <div style="font-size: 0.85rem; color: var(--text-light);">Conversão automática para USDC</div>
-                            </div>
-                        </div>
-                        
-                        <!-- QR Code Container -->
-                        <div id="qrCodeContainer" style="text-align: center; padding: 20px; background: white; border-radius: 8px; display: none;">
-                            <div style="width: 200px; height: 200px; margin: 0 auto 16px; background: white; padding: 10px; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
-                                <!-- QR Code Simulado -->
-                                <div style="width: 100%; height: 100%; background: linear-gradient(45deg, #000 25%, transparent 25%), linear-gradient(-45deg, #000 25%, transparent 25%), linear-gradient(45deg, transparent 75%, #000 75%), linear-gradient(-45deg, transparent 75%, #000 75%); background-size: 20px 20px; background-position: 0 0, 0 10px, 10px -10px, -10px 0px; border-radius: 4px; display: flex; align-items: center; justify-content: center;">
-                                    <i class="fas fa-qrcode" style="font-size: 3rem; color: white; background: var(--primary); padding: 10px; border-radius: 8px;"></i>
-                                </div>
-                            </div>
-                            <p style="font-size: 0.9rem; color: var(--text-light); margin-bottom: 8px;">Escaneie o QR Code com seu app bancário</p>
-                            <div style="background: var(--bg); padding: 12px; border-radius: 8px; font-family: monospace; font-size: 0.85rem; word-break: break-all;" id="pixCode">
-                                00020126580014BR.GOV.BCB.PIX0136nomadkey@example.com52040000530398654061000.005802BR5913Nomad Key6009SAO PAULO62070503***6304E2CA
-                            </div>
-                            <button class="btn btn-secondary" style="margin-top: 12px; width: 100%;" onclick="copyPixCode()">
-                                <i class="fas fa-copy"></i> Copiar código PIX
-                            </button>
-                        </div>
-
-                        <!-- Botão Gerar PIX -->
-                        <button class="btn btn-primary" style="width: 100%;" id="generatePixBtn" onclick="generatePix()">
-                            <i class="fas fa-qrcode"></i> Gerar QR Code PIX
-                        </button>
-
-                        <!-- Status do Pagamento -->
-                        <div id="paymentStatus" style="display: none; margin-top: 16px; padding: 16px; background: linear-gradient(135deg, rgba(72,187,120,0.1), rgba(72,187,120,0.05)); border-radius: 8px; border: 1px solid var(--success);">
-                            <div style="display: flex; align-items: center; gap: 12px; color: var(--success);">
-                                <i class="fas fa-check-circle" style="font-size: 1.5rem;"></i>
-                                <div>
-                                    <div style="font-weight: 600;">Pagamento confirmado!</div>
-                                    <div style="font-size: 0.85rem;">Seu pagamento foi convertido em USDC e está em escrow.</div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Info Educativa -->
-                    <div style="background: linear-gradient(135deg, rgba(102,126,234,0.1), rgba(118,75,162,0.1)); padding: 16px; border-radius: 12px; margin-top: 16px;">
-                        <div style="display: flex; align-items: flex-start; gap: 12px;">
-                            <i class="fas fa-info-circle" style="color: var(--primary); font-size: 1.25rem; margin-top: 2px;"></i>
-                            <div>
-                                <div style="font-weight: 600; margin-bottom: 4px;">Como funciona?</div>
-                                <div style="font-size: 0.9rem; color: var(--text-light); line-height: 1.5;">
-                                    1. Você paga em Reais via PIX<br>
-                                    2. O valor é convertido automaticamente para USDC<br>
-                                    3. O USDC fica em um smart contract de escrow<br>
-                                    4. Após o check-in, o pagamento é liberado ao anfitrião<br>
-                                    <span style="color: var(--primary); font-weight: 500;">Sua transação está protegida pela blockchain! 🔒</span>
-                                </div>
-                            </div>
-                        </div>
+                    <div id="bookingWallet" style="margin-top: 16px; padding: 12px; background: var(--bg); border-radius: 8px; font-size: 0.85rem; display: none;">
+                        <i class="fas fa-wallet" style="color: var(--primary);"></i>
+                        <span id="bookingWalletAddress"></span>
                     </div>
                 </div>
             </div>
@@ -699,44 +396,6 @@
     </div>
 
     <script>
-        // Toast Notification System
-        function showToast(title, message, type = 'info', duration = 4000) {
-            const container = document.getElementById('toastContainer');
-            const toast = document.createElement('div');
-            toast.className = `toast ${type}`;
-            
-            const icons = {
-                success: 'fa-check-circle',
-                error: 'fa-exclamation-circle',
-                warning: 'fa-exclamation-triangle',
-                info: 'fa-info-circle'
-            };
-            
-            toast.innerHTML = `
-                <i class="fas ${icons[type]}"></i>
-                <div class="toast-content">
-                    <div class="toast-title">${title}</div>
-                    <div class="toast-message">${message}</div>
-                </div>
-                <button class="toast-close" onclick="this.parentElement.remove()">
-                    <i class="fas fa-times"></i>
-                </button>
-            `;
-            
-            container.appendChild(toast);
-            
-            setTimeout(() => {
-                toast.classList.add('hiding');
-                setTimeout(() => toast.remove(), 300);
-            }, duration);
-        }
-
-        // Global variables
-        let user = null;
-        let map = null;
-        let markers = [];
-        let currentProperty = null;
-
         // Mock data
         const properties = [
             {
@@ -837,6 +496,10 @@
             }
         ];
 
+        let user = null;
+        let map = null;
+        let markers = [];
+
         // Initialize
         document.addEventListener('DOMContentLoaded', () => {
             loadUser();
@@ -855,187 +518,8 @@
         function showUser() {
             document.getElementById('userSection').style.display = 'flex';
             document.getElementById('loginBtn').style.display = 'none';
-            
-            // Set avatar initials from email
-            const initials = user.email.split('@')[0].slice(0, 2).toUpperCase();
-            document.getElementById('avatarInitials').textContent = initials;
-        }
-
-        function toggleUserMenu() {
-            const dropdown = document.getElementById('userDropdown');
-            dropdown.classList.toggle('active');
-        }
-
-        function showMyReservations() {
-            loadReservations();
-            document.getElementById('reservationsModal').classList.add('active');
-            document.body.style.overflow = 'hidden';
-            toggleUserMenu();
-        }
-
-        function hideReservations() {
-            document.getElementById('reservationsModal').classList.remove('active');
-            document.body.style.overflow = '';
-        }
-
-        // Reservation Management - NOVO
-        function loadReservations() {
-            const reservations = JSON.parse(localStorage.getItem('nomadkey_reservations') || '[]');
-            const container = document.getElementById('reservationsList');
-            
-            if (reservations.length === 0) {
-                container.innerHTML = `
-                    <div style="text-align: center; padding: 60px 20px; color: var(--text-light);">
-                        <i class="fas fa-calendar" style="font-size: 3rem; margin-bottom: 16px; opacity: 0.5;"></i>
-                        <h3 style="color: var(--text); margin-bottom: 8px;">Nenhuma reserva ainda</h3>
-                        <p>Você ainda não fez nenhuma reserva.</p>
-                        <button class="btn btn-primary" style="margin-top: 16px;" onclick="hideReservations()">
-                            <i class="fas fa-search"></i> Explorar Imóveis
-                        </button>
-                    </div>
-                `;
-                return;
-            }
-            
-            container.innerHTML = reservations.map((res, index) => {
-                const statusColors = {
-                    'pending': { color: '#ed8936', text: 'Aguardando Pagamento', icon: 'fa-clock' },
-                    'paid': { color: '#667eea', text: 'Pago - Em Escrow', icon: 'fa-lock' },
-                    'completed': { color: '#48bb78', text: 'Concluído', icon: 'fa-check-circle' },
-                    'cancelled': { color: '#e53e3e', text: 'Cancelado', icon: 'fa-times-circle' }
-                };
-                const status = statusColors[res.status] || statusColors['pending'];
-                
-                return `
-                    <div style="background: white; border-radius: 12px; padding: 20px; margin-bottom: 16px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
-                        <div style="display: flex; gap: 16px; margin-bottom: 16px;">
-                            <img src="${res.propertyImage}" style="width: 100px; height: 100px; object-fit: cover; border-radius: 8px;">
-                            <div style="flex: 1;">
-                                <h4 style="font-size: 1.1rem; margin-bottom: 4px;">${res.propertyTitle}</h4>
-                                <p style="font-size: 0.9rem; color: var(--text-light); margin-bottom: 8px;">
-                                    <i class="fas fa-map-marker-alt"></i> ${res.propertyLocation}
-                                </p>
-                                <div style="display: flex; align-items: center; gap: 8px; color: ${status.color}; font-weight: 600; font-size: 0.9rem;">
-                                    <i class="fas ${status.icon}"></i> ${status.text}
-                                </div>
-                            </div>
-                            <div style="text-align: right;">
-                                <div style="font-size: 1.25rem; font-weight: 700; color: var(--primary);">R$ ${res.total}</div>
-                                <div style="font-size: 0.85rem; color: var(--text-light);">Reserva #${res.id}</div>
-                            </div>
-                        </div>
-                        <div style="border-top: 1px solid #e2e8f0; padding-top: 16px; display: flex; justify-content: space-between; align-items: center;">
-                            <div style="font-size: 0.9rem;">
-                                <i class="fas fa-calendar"></i> ${res.nights} noite${res.nights > 1 ? 's' : ''} · 
-                                ${new Date(res.checkin).toLocaleDateString('pt-BR')} - ${new Date(res.checkout).toLocaleDateString('pt-BR')}
-                            </div>
-                            ${res.status === 'paid' ? `
-                                <button class="btn btn-primary" style="padding: 8px 16px; font-size: 0.85rem;" onclick="simulateCheckIn(${index})">
-                                    <i class="fas fa-door-open"></i> Simular Check-in
-                                </button>
-                            ` : ''}
-                        </div>
-                    </div>
-                `;
-            }).join('');
-        }
-
-        function saveReservation(reservation) {
-            const reservations = JSON.parse(localStorage.getItem('nomadkey_reservations') || '[]');
-            reservations.push({
-                id: Date.now(),
-                ...reservation,
-                status: 'paid',
-                createdAt: new Date().toISOString()
-            });
-            localStorage.setItem('nomadkey_reservations', JSON.stringify(reservations));
-        }
-
-        function simulateCheckIn(index) {
-            const reservations = JSON.parse(localStorage.getItem('nomadkey_reservations') || '[]');
-            reservations[index].status = 'completed';
-            localStorage.setItem('nomadkey_reservations', JSON.stringify(reservations));
-            
-            showToast('Check-in Realizado!', 'Sua estadia foi confirmada. O pagamento foi liberado ao anfitrião.', 'success', 5000);
-            loadReservations();
-        }
-
-        // Update checkout function to save reservation
-        function generatePix() {
-            const btn = document.getElementById('generatePixBtn');
-            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Gerando QR Code...';
-            btn.disabled = true;
-            
-            setTimeout(() => {
-                document.getElementById('qrCodeContainer').style.display = 'block';
-                btn.style.display = 'none';
-                showToast('QR Code gerado!', 'Escaneie com seu app bancário para pagar', 'success');
-                
-                setTimeout(() => {
-                    document.getElementById('paymentStatus').style.display = 'block';
-                    
-                    // Save reservation
-                    saveReservation({
-                        propertyId: checkoutData.property.id,
-                        propertyTitle: checkoutData.property.title,
-                        propertyLocation: checkoutData.property.location,
-                        propertyImage: checkoutData.property.image,
-                        checkin: checkoutData.checkin,
-                        checkout: checkoutData.checkout,
-                        nights: checkoutData.nights,
-                        guests: checkoutData.guests,
-                        total: checkoutData.total
-                    });
-                    
-                    showToast('Pagamento confirmado!', 'Sua reserva foi salva! Acesse "Minhas Reservas" para ver.', 'success', 6000);
-                    
-                    setTimeout(() => {
-                        hideCheckout();
-                        showMyReservations();
-                    }, 3000);
-                }, 3000);
-            }, 1500);
-        }
-
-        function showWalletInfo() {
-            if (user) {
-                showToast('Sua Wallet', `Endereço completo: ${user.wallet}`, 'info', 6000);
-            }
-            toggleUserMenu();
-        }
-
-        function calculatePrice() {
-            if (!currentProperty) return;
-            
-            const checkin = document.getElementById('checkin').value;
-            const checkout = document.getElementById('checkout').value;
-            
-            if (!checkin || !checkout) {
-                document.getElementById('priceBreakdown').style.display = 'none';
-                return;
-            }
-            
-            const start = new Date(checkin);
-            const end = new Date(checkout);
-            const nights = Math.max(1, Math.round((end - start) / (1000 * 60 * 60 * 24)));
-            
-            if (nights <= 0) {
-                showToast('Datas inválidas', 'Check-out deve ser após o check-in', 'error');
-                return;
-            }
-            
-            const dailyRate = currentProperty.price;
-            const subtotal = nights * dailyRate;
-            const fee = Math.round(subtotal * 0.02);
-            const total = subtotal + fee;
-            const usdcAmount = (total / 5).toFixed(2);
-            
-            document.getElementById('nightsLabel').textContent = `${nights} noite${nights > 1 ? 's' : ''} x R$ ${dailyRate}`;
-            document.getElementById('subtotalValue').textContent = `R$ ${subtotal}`;
-            document.getElementById('feeValue').textContent = `R$ ${fee}`;
-            document.getElementById('totalValue').textContent = `R$ ${total}`;
-            document.getElementById('usdcValue').textContent = `${usdcAmount} USDC`;
-            document.getElementById('priceBreakdown').style.display = 'block';
+            document.getElementById('walletDisplay').textContent = 
+                user.wallet.slice(0, 6) + '...' + user.wallet.slice(-4);
         }
 
         function showLogin() {
@@ -1059,37 +543,6 @@
             
             hideLogin();
             showUser();
-            
-            // Verificar se há imóvel pendente após login
-            checkPendingProperty();
-        }
-
-        function checkPendingProperty() {
-            const pending = localStorage.getItem('nomadkey_pending_property');
-            if (pending) {
-                const data = JSON.parse(pending);
-                const property = properties.find(p => p.id === data.propertyId);
-                
-                if (property) {
-                    // Restaurar seleção
-                    currentProperty = property;
-                    
-                    // Mostrar detalhes do imóvel
-                    setTimeout(() => {
-                        showDetail(property.id);
-                        
-                        // Restaurar datas se existirem
-                        if (data.checkin) document.getElementById('checkin').value = data.checkin;
-                        if (data.checkout) document.getElementById('checkout').value = data.checkout;
-                        if (data.checkin && data.checkout) calculatePrice();
-                        
-                        showToast('Bem-vindo de volta!', 'Continue sua reserva de onde parou.', 'success');
-                    }, 500);
-                }
-                
-                // Limpar pending
-                localStorage.removeItem('nomadkey_pending_property');
-            }
         }
 
         function logout() {
@@ -1169,8 +622,6 @@
             const p = properties.find(x => x.id === id);
             if (!p) return;
 
-            currentProperty = p;
-
             document.getElementById('detailImage').src = p.image;
             document.getElementById('detailTitle').textContent = p.title;
             document.getElementById('detailLocation').textContent = p.location;
@@ -1184,10 +635,13 @@
                 `<span class="amenity"><i class="fas fa-check"></i> ${a}</span>`
             ).join('');
 
-            // Reset price breakdown
-            document.getElementById('checkin').value = '';
-            document.getElementById('checkout').value = '';
-            document.getElementById('priceBreakdown').style.display = 'none';
+            if (user) {
+                document.getElementById('bookingWallet').style.display = 'block';
+                document.getElementById('bookingWalletAddress').textContent = 
+                    user.wallet.slice(0, 10) + '...' + user.wallet.slice(-8);
+            } else {
+                document.getElementById('bookingWallet').style.display = 'none';
+            }
 
             document.getElementById('detailModal').classList.add('active');
             document.body.style.overflow = 'hidden';
@@ -1200,142 +654,11 @@
 
         function bookProperty() {
             if (!user) {
-                // Salvar o imóvel atual para recuperar após login
-                if (currentProperty) {
-                    localStorage.setItem('nomadkey_pending_property', JSON.stringify({
-                        propertyId: currentProperty.id,
-                        checkin: document.getElementById('checkin').value,
-                        checkout: document.getElementById('checkout').value
-                    }));
-                }
-                
-                // Mostrar modal de login diretamente
+                alert('Por favor, faça login primeiro');
                 showLogin();
-                showToast('Login necessário', 'Faça login para continuar sua reserva. Os dados do imóvel serão preservados.', 'warning', 5000);
-                
                 return;
             }
-            
-            const checkin = document.getElementById('checkin').value;
-            const checkout = document.getElementById('checkout').value;
-            
-            if (!checkin || !checkout) {
-                showToast('Datas necessárias', 'Por favor, selecione as datas de check-in e check-out', 'warning');
-                return;
-            }
-            
-            // Abrir checkout ao invés de apenas mostrar toast
-            showCheckout();
-        }
-
-        // Checkout Functions - NOVO
-        let checkoutData = {
-            property: null,
-            checkin: '',
-            checkout: '',
-            guests: 1,
-            nights: 0,
-            total: 0
-        };
-
-        function showCheckout() {
-            if (!currentProperty) return;
-            
-            // Pegar dados do formulário
-            const checkin = document.getElementById('checkin').value;
-            const checkout = document.getElementById('checkout').value;
-            const guests = document.getElementById('bookingGuests').value;
-            
-            // Calcular noites
-            const start = new Date(checkin);
-            const end = new Date(checkout);
-            const nights = Math.max(1, Math.round((end - start) / (1000 * 60 * 60 * 24)));
-            
-            // Calcular total
-            const subtotal = nights * currentProperty.price;
-            const fee = Math.round(subtotal * 0.02);
-            const total = subtotal + fee;
-            
-            // Salvar dados
-            checkoutData = {
-                property: currentProperty,
-                checkin: checkin,
-                checkout: checkout,
-                guests: guests,
-                nights: nights,
-                total: total
-            };
-            
-            // Preencher modal
-            document.getElementById('checkoutImage').src = currentProperty.image;
-            document.getElementById('checkoutTitle').textContent = currentProperty.title;
-            document.getElementById('checkoutLocation').textContent = currentProperty.location;
-            document.getElementById('checkoutDates').textContent = `${nights} noite${nights > 1 ? 's' : ''}`;
-            document.getElementById('checkoutGuests').textContent = `${guests} hóspede${guests > 1 ? 's' : ''}`;
-            document.getElementById('checkoutTotal').textContent = `R$ ${total}`;
-            
-            // Reset estado do PIX
-            document.getElementById('qrCodeContainer').style.display = 'none';
-            document.getElementById('generatePixBtn').style.display = 'block';
-            document.getElementById('paymentStatus').style.display = 'none';
-            
-            // Esconder detalhes e mostrar checkout
-            document.getElementById('detailModal').classList.remove('active');
-            document.getElementById('checkoutModal').classList.add('active');
-            document.body.style.overflow = 'hidden';
-        }
-
-        function hideCheckout() {
-            document.getElementById('checkoutModal').classList.remove('active');
-            document.body.style.overflow = '';
-        }
-
-        function generatePix() {
-            const btn = document.getElementById('generatePixBtn');
-            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Gerando QR Code...';
-            btn.disabled = true;
-            
-            // Simular processamento
-            setTimeout(() => {
-                document.getElementById('qrCodeContainer').style.display = 'block';
-                btn.style.display = 'none';
-                showToast('QR Code gerado!', 'Escaneie com seu app bancário para pagar', 'success');
-                
-                // Simular confirmação de pagamento após 3 segundos
-                setTimeout(() => {
-                    document.getElementById('paymentStatus').style.display = 'block';
-                    
-                    // Salvar reserva no localStorage
-                    saveReservation({
-                        propertyId: checkoutData.property.id,
-                        propertyTitle: checkoutData.property.title,
-                        propertyLocation: checkoutData.property.location,
-                        propertyImage: checkoutData.property.image,
-                        checkin: checkoutData.checkin,
-                        checkout: checkoutData.checkout,
-                        nights: checkoutData.nights,
-                        guests: checkoutData.guests,
-                        total: checkoutData.total
-                    });
-                    
-                    showToast('Pagamento confirmado!', 'Sua reserva foi salva! Redirecionando...', 'success', 4000);
-                    
-                    // Redirecionar para Minhas Reservas após 2 segundos
-                    setTimeout(() => {
-                        hideCheckout();
-                        showMyReservations();
-                    }, 2000);
-                }, 3000);
-            }, 1500);
-        }
-
-        function copyPixCode() {
-            const code = document.getElementById('pixCode').textContent.trim();
-            navigator.clipboard.writeText(code).then(() => {
-                showToast('Copiado!', 'Código PIX copiado para a área de transferência', 'success');
-            }).catch(() => {
-                showToast('Erro', 'Não foi possível copiar. Tente manualmente.', 'error');
-            });
+            alert('Reserva simulada! Em produção, isso criaria um smart contract de escrow.');
         }
 
         function showHome() {
@@ -1351,26 +674,7 @@
         document.getElementById('detailModal').addEventListener('click', (e) => {
             if (e.target === e.currentTarget) hideDetail();
         });
-
-        document.getElementById('checkoutModal').addEventListener('click', (e) => {
-            if (e.target === e.currentTarget) hideCheckout();
-        });
-
-        document.getElementById('reservationsModal').addEventListener('click', (e) => {
-            if (e.target === e.currentTarget) hideReservations();
-        });
-
-        // Close user dropdown when clicking outside
-        document.addEventListener('click', (e) => {
-            const userMenu = document.querySelector('.user-menu');
-            const dropdown = document.getElementById('userDropdown');
-            if (userMenu && !userMenu.contains(e.target)) {
-                dropdown.classList.remove('active');
-            }
-        });
     </script>
 </body>
 </html>
 /* Updated: Fri Feb 20 22:06:57 UTC 2026 */
-<!-- Cache bust: 1771631639 -->
-<!-- v1771633125 -->
