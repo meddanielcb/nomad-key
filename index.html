@@ -1209,36 +1209,9 @@
                     }));
                 }
                 
-                // Toast clicável para login
-                const container = document.getElementById('toastContainer');
-                const toast = document.createElement('div');
-                toast.className = 'toast warning clickable-toast';
-                toast.innerHTML = `
-                    <i class="fas fa-exclamation-triangle"></i>
-                    <div class="toast-content">
-                        <div class="toast-title">Login necessário</div>
-                        <div class="toast-message">Clique aqui para fazer login e continuar sua reserva</div>
-                    </div>
-                    <button class="toast-close" onclick="event.stopPropagation(); this.parentElement.remove();">
-                        <i class="fas fa-times"></i>
-                    </button>
-                `;
-                
-                // Ao clicar no toast, abre login
-                toast.onclick = function(e) {
-                    if (e.target.closest('.toast-close')) return;
-                    this.remove();
-                    showLogin();
-                };
-                
-                container.appendChild(toast);
-                
-                setTimeout(() => {
-                    if (toast.parentElement) {
-                        toast.classList.add('hiding');
-                        setTimeout(() => toast.remove(), 300);
-                    }
-                }, 8000);
+                // Mostrar modal de login diretamente
+                showLogin();
+                showToast('Login necessário', 'Faça login para continuar sua reserva. Os dados do imóvel serão preservados.', 'warning', 5000);
                 
                 return;
             }
