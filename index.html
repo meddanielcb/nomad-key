@@ -579,6 +579,21 @@
         </div>
     </div>
 
+    <!-- My Reservations Page - NOVO -->
+    <div class="detail-modal" id="reservationsModal">
+        <div class="detail-content" style="max-width: 800px;">
+            <div class="detail-header" style="height: 120px; background: linear-gradient(135deg, var(--primary), var(--secondary)); display: flex; align-items: center; justify-content: center;">
+                <h2 style="color: white; font-size: 1.5rem;"><i class="fas fa-calendar-check"></i> Minhas Reservas</h2>
+                <button class="close-btn" onclick="hideReservations()"><i class="fas fa-arrow-left"></i></button>
+            </div>
+            <div class="detail-body" style="grid-template-columns: 1fr; padding: 24px;">
+                <div id="reservationsList">
+                    <!-- Reservas serão inseridas aqui -->
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- Checkout Modal - NOVO -->
     <div class="detail-modal" id="checkoutModal">
         <div class="detail-content" style="max-width: 500px;">
@@ -847,8 +862,134 @@
         }
 
         function showMyReservations() {
-            showToast('Em breve', 'Área de reservas em desenvolvimento', 'info');
+            loadReservations();
+            document.getElementById('reservationsModal').classList.add('active');
+            document.body.style.overflow = 'hidden';
             toggleUserMenu();
+        }
+
+        function hideReservations() {
+            document.getElementById('reservationsModal').classList.remove('active');
+            document.body.style.overflow = '';
+        }
+
+        // Reservation Management - NOVO
+        function loadReservations() {
+            const reservations = JSON.parse(localStorage.getItem('nomadkey_reservations') || '[]');
+            const container = document.getElementById('reservationsList');
+            
+            if (reservations.length === 0) {
+                container.innerHTML = `
+                    <div style="text-align: center; padding: 60px 20px; color: var(--text-light);">
+                        <i class="fas fa-calendar" style="font-size: 3rem; margin-bottom: 16px; opacity: 0.5;"></i>
+                        <h3 style="color: var(--text); margin-bottom: 8px;">Nenhuma reserva ainda</h3>
+                        <p>Você ainda não fez nenhuma reserva.</p>
+                        <button class="btn btn-primary" style="margin-top: 16px;" onclick="hideReservations()">
+                            <i class="fas fa-search"></i> Explorar Imóveis
+                        </button>
+                    </div>
+                `;
+                return;
+            }
+            
+            container.innerHTML = reservations.map((res, index) => {
+                const statusColors = {
+                    'pending': { color: '#ed8936', text: 'Aguardando Pagamento', icon: 'fa-clock' },
+                    'paid': { color: '#667eea', text: 'Pago - Em Escrow', icon: 'fa-lock' },
+                    'completed': { color: '#48bb78', text: 'Concluído', icon: 'fa-check-circle' },
+                    'cancelled': { color: '#e53e3e', text: 'Cancelado', icon: 'fa-times-circle' }
+                };
+                const status = statusColors[res.status] || statusColors['pending'];
+                
+                return `
+                    <div style="background: white; border-radius: 12px; padding: 20px; margin-bottom: 16px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
+                        <div style="display: flex; gap: 16px; margin-bottom: 16px;">
+                            <img src="${res.propertyImage}" style="width: 100px; height: 100px; object-fit: cover; border-radius: 8px;">
+                            <div style="flex: 1;">
+                                <h4 style="font-size: 1.1rem; margin-bottom: 4px;">${res.propertyTitle}</h4>
+                                <p style="font-size: 0.9rem; color: var(--text-light); margin-bottom: 8px;">
+                                    <i class="fas fa-map-marker-alt"></i> ${res.propertyLocation}
+                                </p>
+                                <div style="display: flex; align-items: center; gap: 8px; color: ${status.color}; font-weight: 600; font-size: 0.9rem;">
+                                    <i class="fas ${status.icon}"></i> ${status.text}
+                                </div>
+                            </div>
+                            <div style="text-align: right;">
+                                <div style="font-size: 1.25rem; font-weight: 700; color: var(--primary);">R$ ${res.total}</div>
+                                <div style="font-size: 0.85rem; color: var(--text-light);">Reserva #${res.id}</div>
+                            </div>
+                        </div>
+                        <div style="border-top: 1px solid #e2e8f0; padding-top: 16px; display: flex; justify-content: space-between; align-items: center;">
+                            <div style="font-size: 0.9rem;">
+                                <i class="fas fa-calendar"></i> ${res.nights} noite${res.nights > 1 ? 's' : ''} · 
+                                ${new Date(res.checkin).toLocaleDateString('pt-BR')} - ${new Date(res.checkout).toLocaleDateString('pt-BR')}
+                            </div>
+                            ${res.status === 'paid' ? `
+                                <button class="btn btn-primary" style="padding: 8px 16px; font-size: 0.85rem;" onclick="simulateCheckIn(${index})">
+                                    <i class="fas fa-door-open"></i> Simular Check-in
+                                </button>
+                            ` : ''}
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function saveReservation(reservation) {
+            const reservations = JSON.parse(localStorage.getItem('nomadkey_reservations') || '[]');
+            reservations.push({
+                id: Date.now(),
+                ...reservation,
+                status: 'paid',
+                createdAt: new Date().toISOString()
+            });
+            localStorage.setItem('nomadkey_reservations', JSON.stringify(reservations));
+        }
+
+        function simulateCheckIn(index) {
+            const reservations = JSON.parse(localStorage.getItem('nomadkey_reservations') || '[]');
+            reservations[index].status = 'completed';
+            localStorage.setItem('nomadkey_reservations', JSON.stringify(reservations));
+            
+            showToast('Check-in Realizado!', 'Sua estadia foi confirmada. O pagamento foi liberado ao anfitrião.', 'success', 5000);
+            loadReservations();
+        }
+
+        // Update checkout function to save reservation
+        function generatePix() {
+            const btn = document.getElementById('generatePixBtn');
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Gerando QR Code...';
+            btn.disabled = true;
+            
+            setTimeout(() => {
+                document.getElementById('qrCodeContainer').style.display = 'block';
+                btn.style.display = 'none';
+                showToast('QR Code gerado!', 'Escaneie com seu app bancário para pagar', 'success');
+                
+                setTimeout(() => {
+                    document.getElementById('paymentStatus').style.display = 'block';
+                    
+                    // Save reservation
+                    saveReservation({
+                        propertyId: checkoutData.property.id,
+                        propertyTitle: checkoutData.property.title,
+                        propertyLocation: checkoutData.property.location,
+                        propertyImage: checkoutData.property.image,
+                        checkin: checkoutData.checkin,
+                        checkout: checkoutData.checkout,
+                        nights: checkoutData.nights,
+                        guests: checkoutData.guests,
+                        total: checkoutData.total
+                    });
+                    
+                    showToast('Pagamento confirmado!', 'Sua reserva foi salva! Acesse "Minhas Reservas" para ver.', 'success', 6000);
+                    
+                    setTimeout(() => {
+                        hideCheckout();
+                        showMyReservations();
+                    }, 3000);
+                }, 3000);
+            }, 1500);
         }
 
         function showWalletInfo() {
@@ -1146,6 +1287,10 @@
 
         document.getElementById('checkoutModal').addEventListener('click', (e) => {
             if (e.target === e.currentTarget) hideCheckout();
+        });
+
+        document.getElementById('reservationsModal').addEventListener('click', (e) => {
+            if (e.target === e.currentTarget) hideReservations();
         });
 
         // Close user dropdown when clicking outside
