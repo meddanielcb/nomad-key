@@ -1164,8 +1164,37 @@
 
         function bookProperty() {
             if (!user) {
-                showToast('Login necessário', 'Por favor, faça login primeiro para reservar', 'warning');
-                showLogin();
+                // Toast clicável para login
+                const container = document.getElementById('toastContainer');
+                const toast = document.createElement('div');
+                toast.className = 'toast warning';
+                toast.style.cursor = 'pointer';
+                toast.innerHTML = `
+                    <i class="fas fa-exclamation-triangle"></i>
+                    <div class="toast-content">
+                        <div class="toast-title">Login necessário</div>
+                        <div class="toast-message">Clique aqui para fazer login e continuar sua reserva</div>
+                    </div>
+                    <button class="toast-close" onclick="this.parentElement.remove()">
+                        <i class="fas fa-times"></i>
+                    </button>
+                `;
+                
+                // Ao clicar no toast, abre login
+                toast.addEventListener('click', function(e) {
+                    if (!e.target.closest('.toast-close')) {
+                        toast.remove();
+                        showLogin();
+                    }
+                });
+                
+                container.appendChild(toast);
+                
+                setTimeout(() => {
+                    toast.classList.add('hiding');
+                    setTimeout(() => toast.remove(), 300);
+                }, 6000);
+                
                 return;
             }
             
@@ -1257,7 +1286,27 @@
                 // Simular confirmação de pagamento após 3 segundos
                 setTimeout(() => {
                     document.getElementById('paymentStatus').style.display = 'block';
-                    showToast('Pagamento confirmado!', 'Seu pagamento foi processado e convertido para USDC em escrow.', 'success', 6000);
+                    
+                    // Salvar reserva no localStorage
+                    saveReservation({
+                        propertyId: checkoutData.property.id,
+                        propertyTitle: checkoutData.property.title,
+                        propertyLocation: checkoutData.property.location,
+                        propertyImage: checkoutData.property.image,
+                        checkin: checkoutData.checkin,
+                        checkout: checkoutData.checkout,
+                        nights: checkoutData.nights,
+                        guests: checkoutData.guests,
+                        total: checkoutData.total
+                    });
+                    
+                    showToast('Pagamento confirmado!', 'Sua reserva foi salva! Redirecionando...', 'success', 4000);
+                    
+                    // Redirecionar para Minhas Reservas após 2 segundos
+                    setTimeout(() => {
+                        hideCheckout();
+                        showMyReservations();
+                    }, 2000);
                 }, 3000);
             }, 1500);
         }
