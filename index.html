@@ -654,8 +654,19 @@
 
         function bookProperty() {
             if (!user) {
-                alert('Por favor, faça login primeiro');
-                showLogin();
+                // Salvar dados atuais
+                if (currentProperty) {
+                    localStorage.setItem('nomadkey_pending', JSON.stringify({
+                        propertyId: currentProperty.id,
+                        checkin: document.getElementById('checkin').value,
+                        checkout: document.getElementById('checkout').value
+                    }));
+                }
+                
+                // Confirmar antes de redirecionar
+                if (confirm('🔐 Login necessário!\n\nFaça login para continuar sua reserva.\nOs dados do imóvel serão preservados.')) {
+                    showLogin();
+                }
                 return;
             }
             alert('Reserva simulada! Em produção, isso criaria um smart contract de escrow.');
